@@ -5,8 +5,8 @@
     <data>
 
         <variable
-            name="viewmodel"
-            type="kost.romi.bookmarktwitchchat.MainFragmentViewmodel" />
+            name="viewModel"
+            type="kost.romi.bookmarktwitchchat.MainFragmentViewModel" />
     </data>
 
     <FrameLayout

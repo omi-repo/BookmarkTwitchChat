@@ -5,7 +5,6 @@ import android.os.Bundle
 import timber.log.Timber
 
 /**
- * TODO: add data binding.
  * TODO: add Tinder Scarlet
  * TODO: IMPORTANT TO ALWAYS COMMIT AND PUSH AFTER TODO'S ARE DONE
  */
