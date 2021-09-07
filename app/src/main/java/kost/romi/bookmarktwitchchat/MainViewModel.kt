@@ -1,4 +1,9 @@
 package kost.romi.bookmarktwitchchat
 
-class MainViewModel {
+import androidx.lifecycle.ViewModel
+import dagger.hilt.android.scopes.ViewModelScoped
+import javax.inject.Inject
+
+@ViewModelScoped
+class MainViewModel @Inject constructor() : ViewModel() {
 }

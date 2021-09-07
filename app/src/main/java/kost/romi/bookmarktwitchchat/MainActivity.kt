@@ -1,34 +1,47 @@
 package kost.romi.bookmarktwitchchat
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.material.Text
+import androidx.activity.viewModels
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import dagger.hilt.android.AndroidEntryPoint
+import kost.romi.bookmarktwitchchat.ui.screens.MainScreen
 import kost.romi.bookmarktwitchchat.ui.theme.BookmarkTwitchChatTheme
 
 /**
  * TODO: add Tinder Scarlet
  * TODO: IMPORTANT TO ALWAYS COMMIT AND PUSH AFTER TODO'S ARE DONE
  */
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+
+    val mainViewModel by viewModels<MainViewModel>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 //        setContentView(R.layout.activity_main)
 
         setContent {
-            BookmarkTwitchChatTheme() {
-                Text(text = "Test")
-            }
+            val navController = rememberNavController()
+            MainNavHost(navController = navController, viewModel = mainViewModel)
         }
 
     }
 
-    @Preview
     @Composable
-    fun Test() {
-        Text(text = "Test")
+    fun MainNavHost(navController: NavHostController, viewModel: MainViewModel) {
+        BookmarkTwitchChatTheme {
+            NavHost(navController = navController, startDestination = "mainScreen") {
+                composable("mainScreen") {
+                    MainScreen(navController, viewModel)
+                }
+            }
+        }
     }
+
 }
