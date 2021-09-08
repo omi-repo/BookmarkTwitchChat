@@ -9,6 +9,7 @@ import com.neovisionaries.ws.client.WebSocketAdapter
 import com.neovisionaries.ws.client.WebSocketException
 import com.neovisionaries.ws.client.WebSocketFactory
 import dagger.hilt.android.scopes.ViewModelScoped
+import io.ktor.http.websocket.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -20,13 +21,14 @@ class MainViewModel @Inject constructor() : ViewModel() {
     //    var massage = mutableStateOf(mutableListOf<String>("test", "test1"))
     var message = mutableStateListOf<String>("test", "test1")
 
-    val webSocketClient = WebSocketFactory().createSocket("wss://irc-ws.chat.twitch.tv")
+    var webSocketClient: WebSocket? = null
 
     init {
         launchStockTickerWebSocketNV()
     }
 
     fun launchStockTickerWebSocketNV() {
+        webSocketClient = WebSocketFactory().createSocket("wss://irc-ws.chat.twitch.tv")
         viewModelScope.launch {
             startStockTickerWebSocket()
         }
@@ -34,7 +36,7 @@ class MainViewModel @Inject constructor() : ViewModel() {
 
     suspend fun startStockTickerWebSocket() {
         val TAG = "startStockTickerWebSocket"
-        webSocketClient.addListener(object : WebSocketAdapter() {
+        webSocketClient?.addListener(object : WebSocketAdapter() {
             override fun onConnected(
                 websocket: WebSocket?,
                 headers: MutableMap<String, MutableList<String>>?
@@ -55,12 +57,12 @@ class MainViewModel @Inject constructor() : ViewModel() {
             override fun onTextMessage(websocket: WebSocket?, text: String?) {
                 super.onTextMessage(websocket, text)
                 Log.d(TAG, "onTextMessage: $text")
-//                _massage.value = text
+                //                _massage.value = text
                 if (text != null) {
                     message.add(0, text)
                 }
                 Log.d(TAG, "pingSenderName: ${websocket?.pingSenderName}")
-//                websocket?.sendText("{\"action\":\"subscribe\",\"params\":\"T.LPL,Q.MSFT\"}")
+                //                websocket?.sendText("{\"action\":\"subscribe\",\"params\":\"T.LPL,Q.MSFT\"}")
                 Log.d(
                     TAG,
                     "connectedSocket?.inetAddress: ${websocket?.connectedSocket?.inetAddress}"
@@ -111,13 +113,13 @@ class MainViewModel @Inject constructor() : ViewModel() {
                 Log.e(TAG, "onError: ", exception)
             }
         })
-        webSocketClient.connectAsynchronously()
+        webSocketClient?.connectAsynchronously()
     }
 
     fun stopWebSocket() {
         val TAG = "stopWebSocket"
-        if (webSocketClient.connectedSocket.isConnected) {
-            webSocketClient.disconnect()
+        if (webSocketClient?.connectedSocket?.isConnected == true) {
+            webSocketClient?.disconnect()
             Log.d(TAG, "stopWebSocket: webSocketClient.disconnect()")
         }
         Log.d(TAG, "stopWebSocket: list size: ${message.size}")
