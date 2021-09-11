@@ -98,7 +98,6 @@ dependencies {
     implementation "androidx.compose.runtime:runtime-livedata:1.0.2"
 
 
-
     // twitch4j - API for Twitch
     implementation group: 'com.github.twitch4j', name: 'twitch4j', version: '1.5.0'
 
@@ -129,6 +128,8 @@ dependencies {
     //nv-websocket-client
     implementation "com.neovisionaries:nv-websocket-client:2.14"
 
+    // Java WebSocket
+    implementation "org.java-websocket:Java-WebSocket:1.5.1"
 
     // HILT dependency injection
     implementation "com.google.dagger:hilt-android:2.38.1"

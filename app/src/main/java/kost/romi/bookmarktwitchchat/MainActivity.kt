@@ -52,7 +52,7 @@ class MainActivity : ComponentActivity() {
     override fun onPause() {
         super.onPause()
         Log.d(TAG, "onPause: ")
-        mainViewModel.stopWebSocket()
+//        mainViewModel.stopWebSocket()
     }
 
     override fun onDestroy() {
@@ -70,7 +70,16 @@ class MainActivity : ComponentActivity() {
         BookmarkTwitchChatTheme {
             NavHost(navController = navController, startDestination = "mainScreen") {
                 composable("mainScreen") {
-                    MainScreen(navController, viewModel.message, scrollState = scrollState)
+                    MainScreen(
+                        navController = navController,
+                        message = viewModel.messageList,
+                        scrollState = scrollState,
+                        streamers = viewModel.streamers,
+                        currentStreamer = viewModel.currentStreamer,
+                        onSwitchStreamer = {
+                            viewModel::onSwitchStreamer
+                        }
+                    )
                 }
             }
         }
