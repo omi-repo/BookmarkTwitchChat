@@ -5,26 +5,13 @@ import androidx.lifecycle.ViewModel
 import com.neovisionaries.ws.client.*
 import dagger.hilt.android.scopes.ViewModelScoped
 import javax.inject.Inject
-import android.R
 
-import android.widget.TextView
-
-import android.os.Build
 import android.util.Log
 import androidx.lifecycle.viewModelScope
-import io.socket.client.IO
-import io.socket.client.Socket
-import io.socket.emitter.Emitter
+import kost.romi.bookmarktwitchchat.model.Messages
 import kotlinx.coroutines.launch
 import okhttp3.internal.closeQuietly
-import okhttp3.internal.http2.Http2Connection
-import okhttp3.internal.http2.Http2Stream
-
-import org.eclipse.jetty.websocket.client.WebSocketClient
-import org.java_websocket.handshake.ServerHandshake
-import java.lang.Exception
-import java.net.URI
-import java.net.URISyntaxException
+import okhttp3.internal.trimSubstring
 
 
 /**
@@ -41,9 +28,12 @@ class MainViewModel @Inject constructor() : ViewModel() {
     var webSocketClient: WebSocket? = null
 
     //    var massage = mutableStateOf(mutableListOf<String>("test", "test1"))
-    var messageList = mutableStateListOf<String>("test", "test1")
+    var messageListString = mutableStateListOf<String>("test", "test1")
+
+    var messageList = mutableStateListOf<Messages>()
 
     var streamers = mutableStateListOf<String>(
+        "dafran",
         "jakenbakelive",
         "hachubby",
         "nmplol",
@@ -103,7 +93,15 @@ class MainViewModel @Inject constructor() : ViewModel() {
                 Log.d(TAG, "onTextMessage: $text")
                 //                _massage.value = text
                 if (text != null) {
-                    messageList.add(0, text)
+                    messageListString.add(0, text)
+                    val username = text.trimSubstring(1, text.indexOf("!"))
+                    val message =
+                        text.trimSubstring(
+                            text.indexOf("#$currentStreamer :") + "#$currentStreamer :".length,
+                            text.length
+                        )
+                    Log.i(TAG, "onTextMessage(filtered): $username|$message")
+                    messageList.add(0, Messages(username = username, message = message))
                 }
                 /*Log.d(TAG, "pingSenderName: ${websocket?.pingSenderName}")
                 //                websocket?.sendText("{\"action\":\"subscribe\",\"params\":\"T.LPL,Q.MSFT\"}")
@@ -189,7 +187,7 @@ class MainViewModel @Inject constructor() : ViewModel() {
         if (webSocketClient?.connectedSocket?.isConnected == true) {
             Log.d(TAG, "stopWebSocket: webSocketClient.disconnect()")
         }
-        Log.d(TAG, "stopWebSocket: list size: ${messageList.size}")
+        Log.d(TAG, "stopWebSocket: list size: ${messageListString.size}")
     }
 
 }

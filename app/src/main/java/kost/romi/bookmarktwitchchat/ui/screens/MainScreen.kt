@@ -1,31 +1,27 @@
 package kost.romi.bookmarktwitchchat.ui.screens
 
-import android.util.Log
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.*
-import androidx.compose.material.Button
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.navigation.NavHostController
+import androidx.compose.ui.text.style.TextAlign
+import kost.romi.bookmarktwitchchat.model.Messages
 
 /**
- * TODO: give MainScreen its own ViewModel for initializing WebSocket in init(){}
- * TODO: the implementation of state hoisting is not right. fix it.
+ *
  */
 
 @Composable
 fun MainScreen(
-    navController: NavHostController,
-    message: MutableList<String>,
+    messageList: MutableList<Messages>,
     scrollState: LazyListState,
     streamers: MutableList<String>,
     currentStreamer: String,
-    onSwitchStreamer: (String) -> Unit
+    onSwitchStreamer: (String) -> Unit,
+    onToggleTheme: () -> Unit
 ) {
     val TAG = "MainScreen"
     val coroutineScope = rememberCoroutineScope()
@@ -35,34 +31,36 @@ fun MainScreen(
             TopBar(
                 streamers = streamers,
                 currentStreamer = currentStreamer,
-                onSwitchStreamer = onSwitchStreamer
+                onSwitchStreamer = onSwitchStreamer,
+                onToggleTheme = onToggleTheme
             )
         }
     ) {
-        Column() {
-
-            // reverseLayout = true, to reverse
-            LazyColumn(
-                reverseLayout = true,
-                state = scrollState,
-                modifier = Modifier
-                    .fillMaxSize(),
-            ) {
-                itemsIndexed(items = message) { index, item ->
-                    Text(text = item)
+        // reverseLayout = true, to reverse
+        LazyColumn(
+            reverseLayout = true,
+            state = scrollState,
+            modifier = Modifier
+                .fillMaxWidth()
+        ) {
+            items(items = messageList) { item ->
+                Row(horizontalArrangement = Arrangement.Start) {
+                    Text(text = item.username)
+                    Text(text = " : ")
+                    Text(text = item.message)
                 }
+                //MessageRow(item = item)
             }
         }
+
     }
-}
 
-@Preview
-@Composable
-fun MainScreenPreview() {
-    Scaffold() {
-        Column {
-//            Text(text = "chat")
-
+    @Composable
+    fun MessageRow(item: Messages) {
+        Row(horizontalArrangement = Arrangement.Start) {
+            Text(text = item.username)
+            Text(text = " : ")
+            Text(text = item.message)
         }
     }
 }

@@ -11,7 +11,7 @@ android {
 
     defaultConfig {
         applicationId "kost.romi.bookmarktwitchchat"
-        minSdkVersion 23
+        minSdkVersion 26
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
@@ -45,6 +45,10 @@ android {
 
     packagingOptions {
         exclude 'org/eclipse/jetty/http/encoding.properties'
+    }
+
+    testOptions {
+        unitTests.returnDefaultValues = true
     }
 }
 
