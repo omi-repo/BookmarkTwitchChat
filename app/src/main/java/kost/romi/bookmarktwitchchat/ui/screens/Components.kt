@@ -1,6 +1,7 @@
 package kost.romi.bookmarktwitchchat.ui.screens
 
 import android.util.Log
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
@@ -68,6 +69,7 @@ fun TopBarSearchBar(
         modifier = Modifier
             .fillMaxWidth()
     ) {
+        var boolTest = false
         TextField(
             value = textState.value,
             onValueChange = { textState.value = it },
@@ -97,6 +99,13 @@ fun TopBarSearchBar(
                 painter = painterResource(id = R.drawable.ic_baseline_dark_mode_24),
                 contentDescription = "Toggle Theme"
             )
+            if (boolTest) {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                boolTest = true
+            } else {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                boolTest = false
+            }
         }
     }
 }

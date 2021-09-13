@@ -93,15 +93,19 @@ class MainViewModel @Inject constructor() : ViewModel() {
                 Log.d(TAG, "onTextMessage: $text")
                 //                _massage.value = text
                 if (text != null) {
-                    messageListString.add(0, text)
-                    val username = text.trimSubstring(1, text.indexOf("!"))
-                    val message =
-                        text.trimSubstring(
-                            text.indexOf("#$currentStreamer :") + "#$currentStreamer :".length,
-                            text.length
-                        )
-                    Log.i(TAG, "onTextMessage(filtered): $username|$message")
-                    messageList.add(0, Messages(username = username, message = message))
+                    if (text.substring(0, ":tmi.twitch.tv".length).contains(":tmi.twitch.tv")) {
+                        //skip
+                    } else {
+                        messageListString.add(0, text)
+                        val username = text.trimSubstring(1, text.indexOf("!"))
+                        val message =
+                            text.trimSubstring(
+                                text.indexOf("#$currentStreamer :") + "#$currentStreamer :".length,
+                                text.length
+                            )
+                        Log.i(TAG, "onTextMessage(filtered): $username|$message")
+                        messageList.add(0, Messages(username = username, message = message))
+                    }
                 }
                 /*Log.d(TAG, "pingSenderName: ${websocket?.pingSenderName}")
                 //                websocket?.sendText("{\"action\":\"subscribe\",\"params\":\"T.LPL,Q.MSFT\"}")

@@ -1,11 +1,11 @@
 package kost.romi.bookmarktwitchchat
 
-import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
@@ -17,7 +17,6 @@ import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
 import kost.romi.bookmarktwitchchat.ui.screens.MainScreen
 import kost.romi.bookmarktwitchchat.ui.theme.BookmarkTwitchChatTheme
-import java.util.*
 
 /**
  * TODO: add Tinder Scarlet
@@ -34,6 +33,11 @@ class MainActivity : ComponentActivity() {
     fun toggleLightTheme() {
         Log.d(TAG, "toggleLightTheme: isDark == $isDark")
         isDark.value = !isDark.value
+        if (isDark.value) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+        }
     }
 
     val mainViewModel by viewModels<MainViewModel>()
