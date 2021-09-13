@@ -139,4 +139,9 @@ dependencies {
     implementation "com.google.dagger:hilt-android:2.38.1"
     kapt "com.google.dagger:hilt-compiler:2.38.1"
     implementation 'androidx.hilt:hilt-navigation-compose:1.0.0-alpha03'
+
+    /*// System UI Controller for Jetpack Compose
+    implementation "com.google.accompanist:accompanist-systemuicontroller:0.9.2"
+//    // AppCompat Compose Theme Adapter
+//    implementation "com.google.accompanist:accompanist-appcompat-theme:0.9.2"*/
 }

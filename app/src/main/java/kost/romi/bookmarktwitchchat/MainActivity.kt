@@ -17,6 +17,15 @@ import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
 import kost.romi.bookmarktwitchchat.ui.screens.MainScreen
 import kost.romi.bookmarktwitchchat.ui.theme.BookmarkTwitchChatTheme
+import android.R
+import android.view.Window
+
+import android.view.WindowManager
+import androidx.compose.material.MaterialTheme
+import androidx.compose.runtime.SideEffect
+import androidx.compose.ui.graphics.Color
+import androidx.core.content.ContextCompat
+
 
 /**
  * TODO: add Tinder Scarlet
@@ -33,11 +42,6 @@ class MainActivity : ComponentActivity() {
     fun toggleLightTheme() {
         Log.d(TAG, "toggleLightTheme: isDark == $isDark")
         isDark.value = !isDark.value
-        if (isDark.value) {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-        } else {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-        }
     }
 
     val mainViewModel by viewModels<MainViewModel>()
@@ -48,6 +52,22 @@ class MainActivity : ComponentActivity() {
         setContent {
             val navController = rememberNavController()
             val scrollState = rememberLazyListState()
+
+            /*// Remember a SystemUiController
+            val systemUiController = rememberSystemUiController()
+            val useDarkIcons = MaterialTheme.colors.isLight
+
+            SideEffect {
+                // Update all of the system bar colors to be transparent, and use
+                // dark icons if we're in light theme
+                systemUiController.setSystemBarsColor(
+                    color = Color.Transparent,
+                    darkIcons = useDarkIcons
+                )
+
+                // setStatusBarsColor() and setNavigationBarsColor() also exist
+            }*/
+
             MainNavHost(
                 navController = navController,
                 viewModel = mainViewModel,
@@ -84,6 +104,7 @@ class MainActivity : ComponentActivity() {
             darkTheme = isDark.value
         ) {
             NavHost(navController = navController, startDestination = "mainScreen") {
+
                 composable("mainScreen") {
                     MainScreen(
                         messageList = mainViewModel.messageList,

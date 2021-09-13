@@ -3,6 +3,7 @@ package kost.romi.bookmarktwitchchat.ui.screens
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.*
 import androidx.compose.material.Divider
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
@@ -43,6 +44,7 @@ fun MainScreen(
             )
         }
     ) {
+
         // reverseLayout = true, to reverse
         LazyColumn(
             reverseLayout = true,

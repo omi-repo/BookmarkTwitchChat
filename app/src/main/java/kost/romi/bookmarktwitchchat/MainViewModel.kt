@@ -33,6 +33,7 @@ class MainViewModel @Inject constructor() : ViewModel() {
     var messageList = mutableStateListOf<Messages>()
 
     var streamers = mutableStateListOf<String>(
+        "aceu",
         "dafran",
         "jakenbakelive",
         "hachubby",
