@@ -5,6 +5,11 @@ plugins {
     id 'dagger.hilt.android.plugin'
 }
 
+// Using keys.properties file for ClientId and ClientSecret.
+def keysPropertiesFile = rootProject.file("keys.properties")
+def keysProperties = new Properties()
+keysProperties.load(new FileInputStream(keysPropertiesFile))
+
 android {
     compileSdkVersion 30
     buildToolsVersion "30.0.3"
@@ -20,9 +25,18 @@ android {
     }
 
     buildTypes {
+        debug {
+            buildConfigField 'String', "TwitchClientId", keysProperties['TwitchClientId']
+            buildConfigField 'String', "TwitchClientSecret", keysProperties['TwitchClientSecret']
+            buildConfigField 'String', "Token", keysProperties['Token']
+        }
         release {
-            minifyEnabled false
+            minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField 'String', "TwitchClientId", keysProperties['TwitchClientId']
+            buildConfigField 'String', "TwitchClientSecret", keysProperties['TwitchClientSecret']
+            buildConfigField 'String', "Token", keysProperties['Token']
         }
     }
     compileOptions {

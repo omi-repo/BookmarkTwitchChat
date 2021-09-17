@@ -23,11 +23,12 @@ class MainViewModel @Inject constructor() : ViewModel() {
 
     val TAG = "MainViewModel"
 
+    private val token = BuildConfig.Token
+
     var wbLaunched = false
 
     var webSocketClient: WebSocket? = null
 
-    //    var massage = mutableStateOf(mutableListOf<String>("test", "test1"))
     var messageListString = mutableStateListOf<String>("test", "test1")
 
     var messageList = mutableStateListOf<Messages>()
@@ -79,7 +80,7 @@ class MainViewModel @Inject constructor() : ViewModel() {
                 super.onConnected(websocket, headers)
                 Log.d(TAG, "onConnected: ")
                 Log.d(TAG, "onConnected: ${headers.toString()}")
-                websocket?.sendText("PASS oauth:jxq8kwp09wtl1pzhkh6pblde7z5y5b")
+                websocket?.sendText("PASS oauth:$token")
                 websocket?.sendText("NICK wildo210")
                 websocket?.sendText("JOIN #$currentStreamer")
                 for (head in headers?.entries!!) {
